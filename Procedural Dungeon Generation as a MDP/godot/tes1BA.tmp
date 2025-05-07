@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyosd26vt4k5k"]
+
+[ext_resource type="Script" path="res://test_world.gd" id="1_0j3ha"]
+[ext_resource type="PackedScene" uid="uid://dgghmyfbo8gyq" path="res://room_tile.tscn" id="1_nrybk"]
+[ext_resource type="PackedScene" uid="uid://cp17xjh1eivqm" path="res://player.tscn" id="2_ngbig"]
+
+[node name="TestWorld" type="Node2D"]
+script = ExtResource("1_0j3ha")
+base_room_scene = ExtResource("1_nrybk")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.1, 0.1)
+
+[node name="Rooms" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("2_ngbig")]
+position = Vector2(193, 106)
+camera_nodepath = NodePath("../Camera2D")

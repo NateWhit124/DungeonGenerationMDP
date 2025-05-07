@@ -1,0 +1,97 @@
+[gd_scene load_steps=10 format=3 uid="uid://c3n7xxd6abadd"]
+
+[ext_resource type="Script" path="res://objects/misc/trap.gd" id="1_q5yrt"]
+[ext_resource type="Texture2D" uid="uid://bk1gaixop555r" path="res://assets/trap_spritesheet.png" id="1_wwu3v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exs5h"]
+atlas = ExtResource("1_wwu3v")
+region = Rect2(192, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_54it6"]
+atlas = ExtResource("1_wwu3v")
+region = Rect2(144, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eq1kc"]
+atlas = ExtResource("1_wwu3v")
+region = Rect2(96, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrpdw"]
+atlas = ExtResource("1_wwu3v")
+region = Rect2(48, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4w2a4"]
+atlas = ExtResource("1_wwu3v")
+region = Rect2(0, 0, 48, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bvgg5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exs5h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_54it6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eq1kc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrpdw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4w2a4")
+}],
+"loop": false,
+"name": &"spikes_down",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4w2a4")
+}, {
+"duration": 30.0,
+"texture": SubResource("AtlasTexture_hrpdw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eq1kc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_54it6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exs5h")
+}],
+"loop": false,
+"name": &"spikes_up",
+"speed": 24.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tfoal"]
+size = Vector2(38, 41)
+
+[node name="Trap" type="Area2D"]
+y_sort_enabled = true
+script = ExtResource("1_q5yrt")
+down_interval = 2.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_bvgg5")
+animation = &"spikes_up"
+offset = Vector2(0, 16)
+
+[node name="DownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="UpTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="HurtBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 23.5)
+shape = SubResource("RectangleShape2D_tfoal")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]
+[connection signal="timeout" from="DownTimer" to="." method="_on_down_timer_timeout"]
+[connection signal="timeout" from="UpTimer" to="." method="_on_up_timer_timeout"]

@@ -1,0 +1,274 @@
+[gd_scene load_steps=23 format=3 uid="uid://cp17xjh1eivqm"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_qsi7i"]
+[ext_resource type="Shader" path="res://flash.gdshader" id="2_cuyur"]
+[ext_resource type="Texture2D" uid="uid://bh5isxdm8506b" path="res://assets/2D Pixel Dungeon Asset Pack/Character_animation/priests_idle/priest1/v1/priest1_v1_attack.png" id="3_4pajn"]
+[ext_resource type="Texture2D" uid="uid://byy2g07fbv83b" path="res://assets/2D Pixel Dungeon Asset Pack/Character_animation/priests_idle/priest1/v1/priest1_v1_anims.png" id="4_qe1e2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_obkmt"]
+size = Vector2(11, 3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wowns"]
+shader = ExtResource("2_cuyur")
+shader_parameter/flash_color = Color(1, 0, 0, 1)
+shader_parameter/do_flash = false
+shader_parameter/flash_amount = 0.5
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4nvma"]
+atlas = ExtResource("3_4pajn")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a1f2f"]
+atlas = ExtResource("3_4pajn")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3sw42"]
+atlas = ExtResource("3_4pajn")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p2wti"]
+atlas = ExtResource("3_4pajn")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t2dvr"]
+atlas = ExtResource("3_4pajn")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ey5u"]
+atlas = ExtResource("3_4pajn")
+region = Rect2(144, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_np7jg"]
+atlas = ExtResource("4_qe1e2")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fb5ol"]
+atlas = ExtResource("4_qe1e2")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0rvj4"]
+atlas = ExtResource("4_qe1e2")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8y5k2"]
+atlas = ExtResource("4_qe1e2")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ntdg1"]
+animations = [{
+"frames": [{
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_4nvma")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_a1f2f")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_3sw42")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2wti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t2dvr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ey5u")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_np7jg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fb5ol")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0rvj4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8y5k2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qxeso"]
+radius = 5.0
+height = 14.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6nrhr"]
+size = Vector2(16, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lqjoj"]
+size = Vector2(18, 7.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jtxwu"]
+bg_color = Color(0, 0, 0, 0.588235)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gsivx"]
+bg_color = Color(0, 1, 0, 0.466667)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+y_sort_enabled = true
+motion_mode = 1
+script = ExtResource("1_qsi7i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
+position = Vector2(-0.5, -0.5)
+shape = SubResource("RectangleShape2D_obkmt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_wowns")
+sprite_frames = SubResource("SpriteFrames_ntdg1")
+animation = &"idle"
+autoplay = "idle"
+offset = Vector2(4.53, -6)
+
+[node name="HitBox" type="Area2D" parent="." groups=["player_hitbox"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0, -6)
+shape = SubResource("CapsuleShape2D_qxeso")
+
+[node name="HurtBox1" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBox1"]
+position = Vector2(5, -3.5)
+shape = SubResource("RectangleShape2D_6nrhr")
+
+[node name="HurtBox2" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBox2"]
+position = Vector2(3, -11.25)
+shape = SubResource("RectangleShape2D_lqjoj")
+
+[node name="AttackTimer" type="Timer" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OpenChestLabel" type="Label" parent="CanvasLayer/UI"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -82.0
+offset_right = 82.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "Press E to open chest"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -123.0
+offset_top = -41.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = -5
+
+[node name="HealthTitle" type="Label" parent="CanvasLayer/UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 8
+text = "Health"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/UI/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_jtxwu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_gsivx")
+show_percentage = false
+
+[node name="HealthValue" type="Label" parent="CanvasLayer/UI/MarginContainer/VBoxContainer/HealthBar"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 15
+text = "10 / 10"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/UI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -41.0
+offset_right = 74.0
+grow_vertical = 0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = -5
+
+[node name="AttackTitle" type="Label" parent="CanvasLayer/UI/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 8
+text = "Attack Power"
+horizontal_alignment = 1
+
+[node name="AttackValue" type="Label" parent="CanvasLayer/UI/MarginContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 15
+text = "10
+"
+horizontal_alignment = 1
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="frame_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]
+[connection signal="area_entered" from="HurtBox1" to="." method="_on_hurt_box_area_entered"]
+[connection signal="area_entered" from="HurtBox2" to="." method="_on_hurt_box_area_entered"]

@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyosd26vt4k5k"]
+
+[ext_resource type="Script" path="res://test_world.gd" id="1_0j3ha"]
+[ext_resource type="PackedScene" uid="uid://cp17xjh1eivqm" path="res://player.tscn" id="2_ngbig"]
+[ext_resource type="Script" path="res://camera_2d.gd" id="5_8ls5e"]
+[ext_resource type="PackedScene" uid="uid://c8rmyedo34wi6" path="res://objects/enemies/skeleton/skeleton3.tscn" id="8_u8wag"]
+
+[node name="TestWorld" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_0j3ha")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+script = ExtResource("5_8ls5e")
+player_nodepath = NodePath("../Player")
+room_tile_width = 384
+room_tile_height = 224
+
+[node name="Rooms" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("2_ngbig")]
+position = Vector2(193, 106)
+camera_nodepath = NodePath("../Camera2D")
+
+[node name="JuliaMDP" type="JuliaMDP" parent="."]
+
+[node name="Skeleton3" parent="." instance=ExtResource("8_u8wag")]
+position = Vector2(141, 96)

@@ -1,0 +1,78 @@
+[gd_scene load_steps=13 format=3 uid="uid://qbuy36pbaour"]
+
+[ext_resource type="Texture2D" uid="uid://bvrgt3swrnouq" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/mini_chest/mini_chest_1.png" id="1_48oee"]
+[ext_resource type="Script" path="res://objects/chests/chest.gd" id="1_fegyj"]
+[ext_resource type="Texture2D" uid="uid://dw5700n01704v" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/mini_chest/mini_chest_2.png" id="2_173ef"]
+[ext_resource type="Texture2D" uid="uid://0kvg30rgk4cf" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/mini_chest/mini_chest_3.png" id="3_mfvha"]
+[ext_resource type="Texture2D" uid="uid://c2si5v2malabj" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/mini_chest/mini_chest_4.png" id="4_ba36h"]
+[ext_resource type="Texture2D" uid="uid://c7sx0gcs1ahbn" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/mini_chest/mini_chest_open_1.png" id="5_txesw"]
+[ext_resource type="Texture2D" uid="uid://bfoeupu5l7y7g" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/mini_chest/mini_chest_open_2.png" id="6_2024e"]
+[ext_resource type="Texture2D" uid="uid://cl5tja5u55nut" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/mini_chest/mini_chest_open_3.png" id="7_tve2g"]
+[ext_resource type="Texture2D" uid="uid://css868cqkhwdb" path="res://assets/2D Pixel Dungeon Asset Pack/items and trap_animation/mini_chest/mini_chest_open_4.png" id="8_80cj2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4aiws"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_48oee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_173ef")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_mfvha")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ba36h")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_txesw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_2024e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_tve2g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_80cj2")
+}],
+"loop": false,
+"name": &"open",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u0ow3"]
+size = Vector2(10, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8cesc"]
+size = Vector2(16, 12)
+
+[node name="Chest" type="StaticBody2D"]
+y_sort_enabled = true
+script = ExtResource("1_fegyj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_4aiws")
+animation = &"open"
+autoplay = "idle"
+frame = 3
+frame_progress = 1.0
+offset = Vector2(0, -4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_u0ow3")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("RectangleShape2D_8cesc")
+
+[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]
